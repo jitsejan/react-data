@@ -11,22 +11,17 @@ import { SearchkitManager,SearchkitProvider,
   ActionBar, ActionBarRow, SideBar } from 'searchkit'
 import './index.css'
 
-const host = "http://data.jitsejan.com/nintendo/character/"
+const host = "http://data.jitsejan.com/persons/"
 const searchkit = new SearchkitManager(host)
 
 const MovieHitsGridItem = (props)=> {
   const {bemBlocks, result} = props
   const source:any = extend({}, result._source, result.highlight)
-  let image = JSON.stringify(result._source.picture)
-  console.log(image)
   return (
     <div className={bemBlocks.item().mix(bemBlocks.container("item"))} data-qa="hit">
-      <a href="" target="_blank">
-        <img data-qa="image" alt="presentation" className={bemBlocks.item("image")} src={result._source.picture} width="170" height="240"/>
-        <div data-qa="name" className={bemBlocks.item("name")} dangerouslySetInnerHTML={{__html:source.name}}></div>
-        <div data-qa="color" className={bemBlocks.item("color")} dangerouslySetInnerHTML={{__html:source.color}}></div>
-        <div data-qa="occupation" className={bemBlocks.item("occupation")} dangerouslySetInnerHTML={{__html:source.occupation}}></div>
-      </a>
+      <img data-qa="image" alt="presentation" className={bemBlocks.item("image")} src={result._source.image} width="170" height="240"/>
+      <div data-qa="name" className={bemBlocks.item("name")} dangerouslySetInnerHTML={{__html:source.name}}></div>
+      <div data-qa="description" className={bemBlocks.item("description")} dangerouslySetInnerHTML={{__html:source.description}}></div>
     </div>
   )
 }
@@ -36,10 +31,10 @@ const MovieHitsListItem = (props)=> {
   const source:any = extend({}, result._source, result.highlight)
   return (
     <div className={bemBlocks.item().mix(bemBlocks.container("item"))} data-qa="hit">
-      <a href="" target="_blank">
-        <div data-qa="title" className={bemBlocks.item("name")} dangerouslySetInnerHTML={{__html:source.title}}>
-        </div>
-      </a>
+      <img data-qa="image" alt="presentation" className={bemBlocks.item("image")} src={result._source.picture} width="170" height="240"/>
+      <div data-qa="name" className={bemBlocks.item("name")} dangerouslySetInnerHTML={{__html:source.name}}></div>
+      <div data-qa="color" className={bemBlocks.item("color")} dangerouslySetInnerHTML={{__html:source.color}}></div>
+      <div data-qa="occupation" className={bemBlocks.item("occupation")} dangerouslySetInnerHTML={{__html:source.occupation}}></div>
     </div>
   )
 }
@@ -75,7 +70,7 @@ class App extends Component {
             </ActionBar>
             <ViewSwitcherHits
                 hitsPerPage={12} highlightFields={["name","occupation"]}
-                sourceFilter={["name", "occupation", "color", "picture"]}
+                sourceFilter={["name", "occupation", "color", "image", "description"]}
                 hitComponents={[
                   {key:"grid", title:"Grid", itemComponent:MovieHitsGridItem, defaultOption:true},
                   {key:"list", title:"List", itemComponent:MovieHitsListItem}
